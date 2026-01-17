@@ -32,7 +32,7 @@ const Loader = () => {
     return (
         <div
             style={{ zIndex: 999999 }}
-            className={`fixed inset-0 w-full h-screen flex flex-col items-center justify-center bg-[#1a1a1a] transition-all duration-100 ease-out ${showLoader ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            className={`fixed inset-0 w-full h-screen flex flex-col items-center justify-center bg-[#1a1a1a] transition-all duration-100 ease-out ${showLoader ? 'opacity-200' : 'opacity-0 pointer-events-none'}`}
         >
             {/* Brand text */}
             <div style={{ marginBottom: '48px' }} className="text-center">

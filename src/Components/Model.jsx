@@ -28,21 +28,23 @@ const Headphone = ({ position, url, color }) => {
         }
     })
     return (
-        <primitive
-            object={cloneModel}
-            ref={ref}
-            position={position}
-            scale={[0.55, 0.55, 0.55]}
-        />
+        <group>
+            <primitive
+                object={cloneModel}
+                ref={ref}
+                position={position}
+                scale={[0.55, 0.55, 0.55]}
+            />
+        </group>
+
     )
 }
-const Model = ({ modelUrl }) => {
+const Model = ({ modelUrl, modelRef }) => {
     const { index } = useContext(ContextProvider)
-    const groupRef = useRef(null)
 
     useGSAP(() => {
-        if (groupRef.current) {
-            gsap.to(groupRef.current.rotation, {
+        if (modelRef.current) {
+            gsap.to(modelRef.current.rotation, {
                 z: (index / 6) * Math.PI * 2,
                 duration: 0.8,
                 ease: "power2.out"
@@ -52,8 +54,9 @@ const Model = ({ modelUrl }) => {
 
     return (
         <>
+
             <group
-                ref={groupRef}
+                ref={modelRef}
                 position={[-1, -6.4, 0]}
                 rotation={[0, 0.7, 0]}
             >
@@ -68,6 +71,7 @@ const Model = ({ modelUrl }) => {
                                 position={[x, y, 1.5]}
                                 url={modelUrl}
                                 color={val.backgroundColor}
+                                modelRef={modelRef}
                             />
                         )
                     })

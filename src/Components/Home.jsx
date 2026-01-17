@@ -1,9 +1,11 @@
 import ThreeScene from './ThreeScene'
 import { useGSAP } from '@gsap/react'
-import { ScrollSmoother } from 'gsap/all'
+import { ScrollSmoother, ScrollTrigger } from 'gsap/all'
 import { ContextProvider } from '../Context/ContextProvider'
 import gsap from 'gsap'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
 const Home = ({ val, index, intensity, left, right }) => {
 
@@ -11,7 +13,10 @@ const Home = ({ val, index, intensity, left, right }) => {
     const heading1 = useRef(null);
     const heading2 = useRef(null);
     const heading3 = useRef(null);
+    const threeScene = useRef(null)
+    const modelRef = useRef(null)
     const [value, setValue] = useState(false);
+    const [modelReady, setModelReady] = useState(false);
 
     useGSAP(() => {
         ScrollSmoother.create({
@@ -48,12 +53,69 @@ const Home = ({ val, index, intensity, left, right }) => {
             tl.from(heading3.current, { x: -100, opacity: 0, duration: 0.1 })
         }
     }, [left])
+
+    // Check when model is ready
+    useEffect(() => {
+        const checkModel = setInterval(() => {
+            if (modelRef.current) {
+                console.log("Model is ready!")
+                setModelReady(true)
+                clearInterval(checkModel)
+            }
+        }, 100)
+
+        return () => clearInterval(checkModel)
+    }, [])
+
+    useGSAP(() => {
+        if (!modelReady) return
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "center top",
+                markers: true,
+                scrub: true,
+                pin: true,
+                pinSpacing: true
+            }
+        })
+
+        tl.to(modelRef.current.rotation, {
+            y: Math.PI / 4,
+        })
+        tl.to(modelRef.current.position, {
+            y: -7.4,
+        }, "<")
+        tl.to(modelRef.current.scale, {
+            x: 1.2,
+            y: 1.2,
+            z: 1.2,
+        }, "<")
+        tl.to(".hero-text", {
+            opacity: 0,
+            y: -100,
+            duration: 0.5
+        }, "<")
+        tl.to(".button", {
+            opacity: 0,
+            y: -100,
+            duration: 0.5
+        }, "<")
+        tl.to(".description", {
+            opacity: 0,
+            y: -100,
+            duration: 0.5
+        }, "<")
+    }, { dependencies: [modelReady] })
+
     return (
         <>
             <ContextProvider.Provider value={{ index, intensity }}>
                 <div id="smooth-wrapper">
                     <div id="smooth-content">
-                        <div className="hero w-full max-h-screen font-[Poppins]" style={{ color: textColor, backgroundColor: backgroundColor }}>
+                        <div className="hero w-full h-screen font-[Poppins]" style={{ color: textColor, backgroundColor: backgroundColor }}>
                             <div className="hero-container relative w-full h-screen">
                                 <div className="hero-text flex items-center justify-center flex-col whitespace-nowrap z-10 absolute w-fit h-fit top-[52vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
 
@@ -64,9 +126,12 @@ const Home = ({ val, index, intensity, left, right }) => {
 
 
                                 </div>
-                                <ThreeScene modelUrl={modelUrl} />
 
-                                <div className="discription absolute bottom-[5vh] right-[3vw] w-[25vw]">
+                                <div ref={threeScene} className="three w-full h-screen">
+                                    <ThreeScene modelUrl={modelUrl} modelRef={modelRef} />
+                                </div>
+
+                                <div className="description absolute bottom-[5vh] right-[3vw] w-[25vw]">
                                     <h1 className="title font-semibold text-[1.4vw]">{name}</h1>
                                     <p className="text font-thin text-[0.8vw]">{description}</p>
                                 </div>
@@ -79,6 +144,7 @@ const Home = ({ val, index, intensity, left, right }) => {
                                 </div>
                             </div>
                         </div>
+                        <div className="section2 w-full h-screen bg-amber-950"></div>
                     </div>
                 </div>
             </ContextProvider.Provider>

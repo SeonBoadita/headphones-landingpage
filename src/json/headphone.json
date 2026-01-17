@@ -2,16 +2,6 @@
     {
         "id": 1,
         "modelUrl": "/Models/jv_headphone.glb",
-        "name": "Sunset Glow",
-        "description": "Warm tones for golden hour vibes",
-        "textColor": "#5c3d2e",
-        "backgroundColor": "#ffdab3",
-        "buttonColor": "#5c3d2e",
-        "buttonTextColor": "#ffdab3"
-    },
-    {
-        "id": 2,
-        "modelUrl": "/Models/jv_headphone.glb",
         "name": "Midnight Shadow",
         "description": "Deep bass for night owls",
         "textColor": "#ffffff",
@@ -19,6 +9,16 @@
         "buttonColor": "#ffffff",
         "buttonTextColor": "#000000",
         "intensity": 10
+    },
+    {
+        "id": 2,
+        "modelUrl": "/Models/jv_headphone.glb",
+        "name": "Sunset Glow",
+        "description": "Warm tones for golden hour vibes",
+        "textColor": "#5c3d2e",
+        "backgroundColor": "#ffdab3",
+        "buttonColor": "#5c3d2e",
+        "buttonTextColor": "#ffdab3"
     },
     {
         "id": 3,

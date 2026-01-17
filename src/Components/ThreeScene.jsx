@@ -11,16 +11,16 @@ const DirectionalLight = () => {
         <directionalLight intensity={intensity || 0.8} color="white" position={[0, 2, 1]} />
     )
 }
-const ThreeScene = ({ modelUrl }) => {
+const ThreeScene = ({ modelUrl, modelRef }) => {
     return (
         <div className="canvas w-full h-screen fixed">
             <Canvas camera={{ position: [0, 0, 8], fov: 25 }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} />
-                <OrbitControls />
+                {/* <OrbitControls /> */}
                 <Suspense fallback={null}>
                     <Environment preset="city" />
-                    <Model modelUrl={modelUrl} />
+                    <Model modelUrl={modelUrl} modelRef={modelRef} />
                 </Suspense>
                 <DirectionalLight />
             </Canvas>
