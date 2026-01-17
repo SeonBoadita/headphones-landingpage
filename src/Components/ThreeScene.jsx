@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, OrbitControls } from '@react-three/drei'
 import Model from './Model'
+import { ContextProvider } from '../Context/ContextProvider'
 
-const ThreeScene = () => {
+
+const DirectionalLight = () => {
+    const { intensity } = useContext(ContextProvider)
+    return (
+        <directionalLight intensity={intensity || 0.8} color="white" position={[0, 2, 1]} />
+    )
+}
+const ThreeScene = ({ modelUrl }) => {
     return (
         <div className="canvas w-full h-screen fixed">
             <Canvas camera={{ position: [0, 0, 8], fov: 25 }}>
@@ -11,7 +19,8 @@ const ThreeScene = () => {
                 <pointLight position={[10, 10, 10]} />
                 <OrbitControls />
                 <Environment preset="city" />
-                <Model modelUrl={"/Models/jv_headphone.glb"} />
+                <Model modelUrl={modelUrl} />
+                <DirectionalLight />
             </Canvas>
         </div>
     )

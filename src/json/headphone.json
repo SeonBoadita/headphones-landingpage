@@ -2,37 +2,62 @@
     {
         "id": 1,
         "modelUrl": "/Models/jv_headphone.glb",
-        "name": "Headphone Model",
-        "description": "A 3D model of headphones for rendering in a web application."
+        "name": "Sunset Glow",
+        "description": "Warm tones for golden hour vibes",
+        "textColor": "#5c3d2e",
+        "backgroundColor": "#ffdab3",
+        "buttonColor": "#5c3d2e",
+        "buttonTextColor": "#ffdab3"
     },
     {
         "id": 2,
         "modelUrl": "/Models/jv_headphone.glb",
-        "name": "Headphone Model",
-        "description": "A 3D model of headphones for rendering in a web application."
+        "name": "Midnight Shadow",
+        "description": "Deep bass for night owls",
+        "textColor": "#ffffff",
+        "backgroundColor": "#000",
+        "buttonColor": "#ffffff",
+        "buttonTextColor": "#000000",
+        "intensity": 20
     },
     {
         "id": 3,
         "modelUrl": "/Models/jv_headphone.glb",
-        "name": "Headphone Model",
-        "description": "A 3D model of headphones for rendering in a web application."
+        "name": "Arctic Frost",
+        "description": "Crisp and clean audio",
+        "textColor": "#333333",
+        "backgroundColor": "#fff",
+        "buttonColor": "#333333",
+        "buttonTextColor": "#ffffff"
     },
     {
         "id": 4,
         "modelUrl": "/Models/jv_headphone.glb",
-        "name": "Headphone Model",
-        "description": "A 3D model of headphones for rendering in a web application."
+        "name": "Mocha Blend",
+        "description": "Rich earthy tones for chill beats",
+        "textColor": "#f5f0eb",
+        "backgroundColor": "#6e5c4f",
+        "buttonColor": "#f5f0eb",
+        "buttonTextColor": "#6e5c4f"
     },
     {
         "id": 5,
         "modelUrl": "/Models/jv_headphone.glb",
-        "name": "Headphone Model",
-        "description": "A 3D model of headphones for rendering in a web application."
+        "name": "Rose Petal",
+        "description": "Soft pink for sweet melodies",
+        "textColor": "#4a2c32",
+        "backgroundColor": "#fc99a7",
+        "buttonColor": "#4a2c32",
+        "buttonTextColor": "#fc99a7"
     },
     {
         "id": 6,
         "modelUrl": "/Models/jv_headphone.glb",
-        "name": "Headphone Model",
-        "description": "A 3D model of headphones for rendering in a web application."
+        "name": "Seafoam Dream",
+        "description": "Cool waves of serene sound",
+        "textColor": "#2c4a48",
+        "backgroundColor": "#93c6c4",
+        "buttonColor": "#2c4a48",
+        "buttonTextColor": "#93c6c4"
     }
 ]

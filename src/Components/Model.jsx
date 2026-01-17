@@ -7,10 +7,19 @@ import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 
 
-const Headphone = ({ position, url }) => {
+const Headphone = ({ position, url, color }) => {
 
     const { scene } = useGLTF(url)
-    const cloneModel = useMemo(() => scene.clone(), [scene])
+    const cloneModel = useMemo(() => {
+        const clone = scene.clone()
+        clone.traverse((child) => {
+            if (child.isMesh) {
+                child.material = child.material.clone()
+                child.material.color.set(color)
+            }
+        })
+        return clone
+    }, [scene, color])
 
     const ref = useRef(null)
     useFrame((state) => {
@@ -28,7 +37,7 @@ const Headphone = ({ position, url }) => {
         />
     )
 }
-const Model = () => {
+const Model = ({ modelUrl }) => {
     const { index } = useContext(ContextProvider)
     const groupRef = useRef(null)
 
@@ -57,7 +66,9 @@ const Model = () => {
                             <Headphone
                                 key={key}
                                 position={[x, y, 1.5]}
-                                url={val.modelUrl} />
+                                url={modelUrl}
+                                color={val.backgroundColor}
+                            />
                         )
                     })
                 }

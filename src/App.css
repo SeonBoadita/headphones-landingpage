@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Codystar:wght@300;400&display=swap');
 @import "tailwindcss";
 
 * {
@@ -11,4 +12,10 @@ html {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+}
+
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+  --font-codystar: "Codystar", cursive;
+  --font-bogle: "Poppins", sans-serif;
 }
