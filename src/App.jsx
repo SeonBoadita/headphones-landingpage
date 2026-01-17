@@ -4,6 +4,7 @@ import gsap from 'gsap'
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all'
 import Nav from './Components/Nav'
 import headphonesJSONData from './json/headphone.json'
+import Loader from './Components/Loader'
 
 const App = () => {
   gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
@@ -24,6 +25,7 @@ const App = () => {
 
   return (
     <>
+      <Loader />
       <Nav val={headphoneData[index]} />
 
 

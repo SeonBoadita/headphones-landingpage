@@ -54,7 +54,8 @@ const Model = ({ modelUrl }) => {
         <>
             <group
                 ref={groupRef}
-                position={[0, -6.4, 0]}
+                position={[-1, -6.4, 0]}
+                rotation={[0, 0.7, 0]}
             >
                 {
                     modelData.map((val, key) => {
