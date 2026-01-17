@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Home from './Components/Home'
 import gsap from 'gsap'
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all'
 import Nav from './Components/Nav'
 import headphonesJSONData from './json/headphone.json'
 import Loader from './Components/Loader'
+import { useGSAP } from '@gsap/react'
 
 const App = () => {
   gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
@@ -13,7 +14,7 @@ const App = () => {
   const [headphoneData] = useState(headphonesJSONData);
   const [index, setIndex] = useState(0);
   const { buttonColor, buttonTextColor } = headphoneData[index];
-
+  const heroRef = useRef(null);
   const next = () => {
     setIndex((index + 1) % headphoneData.length)
     setRight(!right);
@@ -22,7 +23,20 @@ const App = () => {
     setIndex((index - 1 + headphoneData.length) % headphoneData.length)
     setLeft(!left);
   };
-
+  useGSAP(() => {
+    gsap.to(".slider", {
+      scale: 10,
+      display: "none",
+      opacity: 0,
+      scrollTrigger: {
+        trigger: heroRef.current,
+        scrub: true,
+        start: "top top",
+        end: "100vh top",
+        // markers: true
+      }
+    })
+  })
   return (
     <>
       <Loader />
@@ -30,7 +44,7 @@ const App = () => {
 
 
       <div className="mainContainer">
-        <Home val={headphoneData[index]} index={index} left={left} right={right} intensity={headphoneData[index].intensity} />
+        <Home val={headphoneData[index]} index={index} left={left} right={right} intensity={headphoneData[index].intensity} heroRef={heroRef} />
 
         <div style={{ padding: "0 7px" }} className="slider pointer-events-none z-9999 fixed top-1/2 transform -translate-y-1/2 flex items-center justify-between w-full">
 

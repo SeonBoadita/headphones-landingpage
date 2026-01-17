@@ -7,7 +7,7 @@ import { useRef, useState, useEffect } from 'react'
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
-const Home = ({ val, index, intensity, left, right }) => {
+const Home = ({ val, index, intensity, left, right, heroRef }) => {
 
     const { modelUrl, name, description, textColor, backgroundColor, buttonColor, buttonTextColor } = val || {}
     const heading1 = useRef(null);
@@ -74,8 +74,8 @@ const Home = ({ val, index, intensity, left, right }) => {
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
-                end: "center top",
-                markers: true,
+                end: "+=700%",
+                // markers: true,
                 scrub: true,
                 pin: true,
                 pinSpacing: true
@@ -95,17 +95,20 @@ const Home = ({ val, index, intensity, left, right }) => {
         }, "<")
         tl.to(".hero-text", {
             opacity: 0,
-            y: -100,
+            y: -400,
+            display: "none",
             duration: 0.5
         }, "<")
         tl.to(".button", {
             opacity: 0,
-            y: -100,
+            x: -200,
+            display: "none",
             duration: 0.5
         }, "<")
         tl.to(".description", {
             opacity: 0,
-            y: -100,
+            x: 200,
+            display: "none",
             duration: 0.5
         }, "<")
     }, { dependencies: [modelReady] })
@@ -116,7 +119,7 @@ const Home = ({ val, index, intensity, left, right }) => {
                 <div id="smooth-wrapper">
                     <div id="smooth-content">
                         <div className="hero w-full h-screen font-[Poppins]" style={{ color: textColor, backgroundColor: backgroundColor }}>
-                            <div className="hero-container relative w-full h-screen">
+                            <div ref={heroRef} className="hero-container relative w-full h-screen">
                                 <div className="hero-text flex items-center justify-center flex-col whitespace-nowrap z-10 absolute w-fit h-fit top-[52vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
 
 
