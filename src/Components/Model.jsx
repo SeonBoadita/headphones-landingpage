@@ -27,7 +27,6 @@ const Headphone = ({ position, url, color }) => {
             ref.current.lookAt(state.mouse.x, state.mouse.y, 10)
         }
     })
-
     return (
         <primitive
             object={cloneModel}
