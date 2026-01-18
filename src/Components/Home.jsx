@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
 const Home = ({ val, index, intensity, left, right, heroRef }) => {
 
-    const { modelUrl, name, description, textColor, backgroundColor, buttonColor, buttonTextColor } = val || {}
+    const { name, description, textColor, backgroundColor, buttonColor, buttonTextColor, detailHeading, detailHeadingAccent, accentStrokeColor, detailDescription } = val || {}
     const heading1 = useRef(null);
     const heading2 = useRef(null);
     const heading3 = useRef(null);
@@ -74,7 +74,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
-                end: "+=700%",
+                end: "+=200%",
                 // markers: true,
                 scrub: true,
                 pin: true,
@@ -86,12 +86,12 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             y: Math.PI / 4,
         })
         tl.to(modelRef.current.position, {
-            y: -7.4,
+            y: -5.4,
         }, "<")
         tl.to(modelRef.current.scale, {
-            x: 1.2,
-            y: 1.2,
-            z: 1.2,
+            x: 0.9,
+            y: 0.9,
+            z: 0.9,
         }, "<")
         tl.to(".hero-text", {
             opacity: 0,
@@ -111,6 +111,11 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             display: "none",
             duration: 0.5
         }, "<")
+        tl.from('.left-detail', {
+            opacity: 0,
+            x: -200,
+            duration: 0.5
+        })
     }, { dependencies: [modelReady] })
 
     return (
@@ -131,7 +136,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                 </div>
 
                                 <div ref={threeScene} className="three w-full h-screen">
-                                    <ThreeScene modelUrl={modelUrl} modelRef={modelRef} />
+                                    <ThreeScene modelRef={modelRef} />
                                 </div>
 
                                 <div className="description absolute bottom-[5vh] right-[3vw] w-[25vw]">
@@ -145,6 +150,19 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                         <i className="fa-solid fa-right-long font-thin"></i>
                                     </button>
                                 </div>
+                            </div>
+
+
+                            <div className="left-detail w-[25vw] h-[20vh] absolute bottom-[5vw] left-[20vh] pointer-events-none">
+                                <div className="heading text-2xl font-bold">
+                                    <span style={{ color: textColor }} className='heading2'>{detailHeading} </span>
+                                    <span style={{ WebkitTextStrokeColor: accentStrokeColor }} className='heading2Side text-transparent leading-none [-webkit-text-stroke:0.7px]'>{detailHeadingAccent}</span>
+                                </div>
+                                <p className="sometext flex flex-col gap-4">
+                                    {detailDescription && detailDescription.map((text, idx) => (
+                                        <span key={idx} style={{ marginTop: idx === 0 ? "4px" : "0", color: textColor }} className='text-[0.8vw] font-light'>{text}</span>
+                                    ))}
+                                </p>
                             </div>
                         </div>
                         <div className="section2 w-full h-screen bg-amber-950"></div>

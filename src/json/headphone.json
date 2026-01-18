@@ -8,7 +8,15 @@
         "backgroundColor": "#000",
         "buttonColor": "#ffffff",
         "buttonTextColor": "#000000",
-        "intensity": 10
+        "intensity": 10,
+        "detailHeading": "Lose yourself in",
+        "detailHeadingAccent": "music",
+        "accentStrokeColor": "#00ff88",
+        "detailDescription": 
+        [
+            "Experience unparalleled sound quality with our latest headphones, designed for true audiophiles.",
+            "Immerse yourself in rich, crystal-clear audio that brings your favorite music to life like never before."
+        ]
     },
     {
         "id": 2,
@@ -18,7 +26,15 @@
         "textColor": "#5c3d2e",
         "backgroundColor": "#ffdab3",
         "buttonColor": "#5c3d2e",
-        "buttonTextColor": "#ffdab3"
+        "buttonTextColor": "#ffdab3",
+        "detailHeading": "Feel the",
+        "detailHeadingAccent": "warmth",
+        "accentStrokeColor": "#d2691e",
+        "detailDescription": 
+        [
+            "Dive into the soothing embrace of warm, balanced tones that elevate every note.",
+            "Crafted for those who appreciate the finer details in their favorite tracks."
+        ]
     },
     {
         "id": 3,
@@ -28,7 +44,15 @@
         "textColor": "#333333",
         "backgroundColor": "#fff",
         "buttonColor": "#333333",
-        "buttonTextColor": "#ffffff"
+        "buttonTextColor": "#ffffff",
+        "detailHeading": "Crystal clear",
+        "detailHeadingAccent": "precision",
+        "accentStrokeColor": "#007acc",
+        "detailDescription": 
+        [
+            "Precision-engineered for audiophiles who demand perfection in every frequency.",
+            "Experience pristine clarity that reveals every subtle detail in your music."
+        ]
     },
     {
         "id": 4,
@@ -38,7 +62,15 @@
         "textColor": "#f5f0eb",
         "backgroundColor": "#6e5c4f",
         "buttonColor": "#f5f0eb",
-        "buttonTextColor": "#6e5c4f"
+        "buttonTextColor": "#6e5c4f",
+        "detailHeading": "Embrace the",
+        "detailHeadingAccent": "vibe",
+        "accentStrokeColor": "#ffcc80",
+        "detailDescription": 
+        [
+            "Rich, organic soundscapes designed for those laid-back listening sessions.",
+            "Let the smooth, earthy tones envelop you in pure acoustic comfort."
+        ]
     },
     {
         "id": 5,
@@ -48,7 +80,15 @@
         "textColor": "#4a2c32",
         "backgroundColor": "#fc99a7",
         "buttonColor": "#4a2c32",
-        "buttonTextColor": "#fc99a7"
+        "buttonTextColor": "#fc99a7",
+        "detailHeading": "Delicate",
+        "detailHeadingAccent": "harmony",
+        "accentStrokeColor": "#d81b60",
+        "detailDescription": 
+        [
+            "Soft, nuanced audio that brings out the beauty in every melody.",
+            "Perfect for those intimate listening moments when every note matters."
+        ]
     },
     {
         "id": 6,
@@ -58,6 +98,14 @@
         "textColor": "#2c4a48",
         "backgroundColor": "#93c6c4",
         "buttonColor": "#2c4a48",
-        "buttonTextColor": "#93c6c4"
+        "buttonTextColor": "#93c6c4",
+        "detailHeading": "Drift into",
+        "detailHeadingAccent": "tranquility",
+        "accentStrokeColor": "#00897b",
+        "detailDescription": 
+        [
+            "Serene soundscapes that transport you to calm, peaceful places.",
+            "Let the cool, flowing tones wash over you like gentle ocean waves."
+        ]
     }
 ]

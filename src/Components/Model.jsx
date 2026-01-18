@@ -39,7 +39,7 @@ const Headphone = ({ position, url, color }) => {
 
     )
 }
-const Model = ({ modelUrl, modelRef }) => {
+const Model = ({ modelRef }) => {
     const { index } = useContext(ContextProvider)
 
     useGSAP(() => {
@@ -69,7 +69,7 @@ const Model = ({ modelUrl, modelRef }) => {
                             <Headphone
                                 key={key}
                                 position={[x, y, 1.5]}
-                                url={modelUrl}
+                                url={val.modelUrl}
                                 color={val.backgroundColor}
                                 modelRef={modelRef}
                             />
