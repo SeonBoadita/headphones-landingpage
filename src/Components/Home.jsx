@@ -17,6 +17,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
     const modelRef = useRef(null)
     const [value, setValue] = useState(false);
     const [modelReady, setModelReady] = useState(false);
+    const [isVisiblePlane, setIsVisiblePlane] = useState(false);
 
     useGSAP(() => {
         ScrollSmoother.create({
@@ -78,7 +79,10 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                 // markers: true,
                 scrub: true,
                 pin: true,
-                pinSpacing: true
+                pinSpacing: true,
+                onUpdate: (self) => {
+                    setIsVisiblePlane(self.progress > 0.5)
+                }
             }
         })
 
@@ -115,7 +119,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             opacity: 0,
             x: -200,
             duration: 0.5
-        })
+        }, "+=0.5")
     }, { dependencies: [modelReady] })
 
     return (
@@ -136,7 +140,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                 </div>
 
                                 <div ref={threeScene} className="three w-full h-screen">
-                                    <ThreeScene modelRef={modelRef} />
+                                    <ThreeScene modelRef={modelRef} planeVisibility={isVisiblePlane} />
                                 </div>
 
                                 <div className="description absolute bottom-[5vh] right-[3vw] w-[25vw]">

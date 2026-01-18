@@ -1,11 +1,13 @@
-import React, { useContext, useMemo, useRef } from 'react'
+import React, { useContext, useMemo, useRef, useState } from 'react'
 import modelData from '../json/headphone.json'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { ContextProvider } from '../Context/ContextProvider'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-
+import * as THREE from 'three'
+import vertexShaderCode from '../shaders/vertexShader.glsl?raw'
+import fragmentShaderCode from '../shaders/fragmentShader.glsl?raw'
 
 const Headphone = ({ position, url, color }) => {
 
@@ -39,9 +41,15 @@ const Headphone = ({ position, url, color }) => {
 
     )
 }
-const Model = ({ modelRef }) => {
+const Model = ({ modelRef, planeVisibility }) => {
     const { index } = useContext(ContextProvider)
-
+    const planeRef = useRef()
+    const [opacity, setOpacity] = useState(0)
+    const uniformMouse = useRef({
+        uMouse: {
+            value: new THREE.Vector2(-1, -1)
+        }
+    })
     useGSAP(() => {
         if (modelRef.current) {
             gsap.to(modelRef.current.rotation, {
@@ -52,8 +60,47 @@ const Model = ({ modelRef }) => {
         }
     }, [index])
 
+    // Smooth transition for plane opacity
+    useGSAP(() => {
+        gsap.to({ value: opacity }, {
+            value: planeVisibility ? 1 : 0,
+            duration: 0.2,
+            ease: "easeInOut",
+            onUpdate: function () {
+                setOpacity(this.targets()[0].value)
+            }
+        })
+    }, [planeVisibility])
+
     return (
         <>
+            <group
+                rotation={[0, Math.PI / 3, 0]}
+                position={[3, 0, -5]}
+            >
+                <mesh
+                    onPointerMove={(e) => {
+                        uniformMouse.current.uMouse.value.copy(e.uv)
+                    }}
+                    onPointerLeave={() => {
+                        uniformMouse.current.uMouse.value.copy(new THREE.Vector2(-1, -1))
+                    }}
+                    ref={planeRef}
+                    position={[0, 0, 0]}
+                    rotation={[-Math.PI / 4, 0, 0]}
+                    visible={opacity > 0}
+                >
+                    <planeGeometry args={[20.5, 1]} />
+                    <shaderMaterial
+                        vertexShader={vertexShaderCode}
+                        fragmentShader={fragmentShaderCode}
+                        uniforms={uniformMouse.current}
+                        color={'#ffffff'}
+                        transparent={true}
+                        opacity={opacity}
+                    />
+                </mesh>
+            </group>
 
             <group
                 ref={modelRef}
