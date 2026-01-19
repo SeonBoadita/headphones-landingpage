@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
 const Home = ({ val, index, intensity, left, right, heroRef }) => {
 
-    const { name, description, textColor, backgroundColor, buttonColor, buttonTextColor, detailHeading, detailHeadingAccent, accentStrokeColor, detailDescription } = val || {}
+    const { name, description, textColor, backgroundColor, buttonColor, buttonTextColor, detailHeading, detailHeadingAccent, accentStrokeColor, detailDescription, personImage } = val || {}
     const heading1 = useRef(null);
     const heading2 = useRef(null);
     const heading3 = useRef(null);
@@ -75,13 +75,13 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
-                end: "+=200%",
+                end: "+=300%",
                 // markers: true,
                 scrub: true,
                 pin: true,
                 pinSpacing: true,
                 onUpdate: (self) => {
-                    setIsVisiblePlane(self.progress > 0.5)
+                    setIsVisiblePlane(self.progress > 0.25)
                 }
             }
         })
@@ -120,6 +120,16 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             x: -200,
             duration: 0.5
         }, "+=0.5")
+
+        tl.from(".section2",
+            {
+                display: "none",
+                opacity: 0,
+            }, "+=1")
+
+        tl.from(".personImage", {
+            scale: 2,
+        }, "<")
     }, { dependencies: [modelReady] })
 
     return (
@@ -127,7 +137,10 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             <ContextProvider.Provider value={{ index, intensity }}>
                 <div id="smooth-wrapper">
                     <div id="smooth-content">
-                        <div className="hero w-full h-screen font-[Poppins]" style={{ color: textColor, backgroundColor: backgroundColor }}>
+                        <div className="hero w-full h-screen relative font-[Poppins]" style={{ color: textColor, backgroundColor: backgroundColor }}>
+                            <div className="section2 w-full h-screen absolute z-99">
+                                <img src={personImage} alt="" className="personImage object-cover w-full h-screen" />
+                            </div>
                             <div ref={heroRef} className="hero-container relative w-full h-screen">
                                 <div className="hero-text flex items-center justify-center flex-col whitespace-nowrap z-10 absolute w-fit h-fit top-[52vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
 
@@ -156,20 +169,21 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                 </div>
                             </div>
 
-
-                            <div className="left-detail w-[25vw] h-[20vh] absolute bottom-[5vw] left-[20vh] pointer-events-none">
-                                <div className="heading text-2xl font-bold">
-                                    <span style={{ color: textColor }} className='heading2'>{detailHeading} </span>
-                                    <span style={{ WebkitTextStrokeColor: accentStrokeColor }} className='heading2Side text-transparent leading-none [-webkit-text-stroke:0.7px]'>{detailHeadingAccent}</span>
+                            <div className="bottom-section absolute">
+                                <div className="left-detail w-[25vw] h-[20vh] absolute bottom-[5vw] left-[20vh] pointer-events-none">
+                                    <div className="heading text-2xl font-bold">
+                                        <span style={{ color: textColor }} className='heading2'>{detailHeading} </span>
+                                        <span style={{ WebkitTextStrokeColor: accentStrokeColor }} className='heading2Side text-transparent leading-none [-webkit-text-stroke:0.7px]'>{detailHeadingAccent}</span>
+                                    </div>
+                                    <p className="sometext flex flex-col gap-4">
+                                        {detailDescription && detailDescription.map((text, idx) => (
+                                            <span key={idx} style={{ marginTop: idx === 0 ? "4px" : "0", color: textColor }} className='text-[0.8vw] font-light'>{text}</span>
+                                        ))}
+                                    </p>
                                 </div>
-                                <p className="sometext flex flex-col gap-4">
-                                    {detailDescription && detailDescription.map((text, idx) => (
-                                        <span key={idx} style={{ marginTop: idx === 0 ? "4px" : "0", color: textColor }} className='text-[0.8vw] font-light'>{text}</span>
-                                    ))}
-                                </p>
                             </div>
+
                         </div>
-                        <div className="section2 w-full h-screen bg-amber-950"></div>
                     </div>
                 </div>
             </ContextProvider.Provider>

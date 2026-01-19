@@ -11,9 +11,9 @@ const DirectionalLight = () => {
         <directionalLight intensity={intensity || 0.8} color="white" position={[0, 2, 1]} />
     )
 }
-const ThreeScene = ({ modelRef, planeVisibility }) => {
+const ThreeScene = ({ modelRef, planeVisibility, }) => {
     return (
-        <div className="canvas w-full h-screen fixed">
+        <div className={`canvas w-full h-screen fixed`}>
             <Canvas camera={{ position: [0, 0, 8], fov: 25 }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} />

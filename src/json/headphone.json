@@ -2,6 +2,7 @@
     {
         "id": 1,
         "modelUrl": "/Models/jv_headphone.glb",
+        "personImage": "/images/person01.png",
         "name": "Midnight Shadow",
         "description": "Deep bass for night owls",
         "textColor": "#ffffff",
@@ -21,6 +22,7 @@
     {
         "id": 2,
         "modelUrl": "/Models/jv_headphone.glb",
+        "personImage": "/images/person02.png",
         "name": "Sunset Glow",
         "description": "Warm tones for golden hour vibes",
         "textColor": "#5c3d2e",
@@ -39,6 +41,7 @@
     {
         "id": 3,
         "modelUrl": "/Models/jv_headphone.glb",
+        "personImage": "/images/person03.png",
         "name": "Arctic Frost",
         "description": "Crisp and clean audio",
         "textColor": "#333333",
@@ -57,6 +60,7 @@
     {
         "id": 4,
         "modelUrl": "/Models/jv_headphone.glb",
+        "personImage": "/images/person04.png",
         "name": "Mocha Blend",
         "description": "Rich earthy tones for chill beats",
         "textColor": "#f5f0eb",
@@ -75,6 +79,7 @@
     {
         "id": 5,
         "modelUrl": "/Models/jv_headphone.glb",
+        "personImage": "/images/person05.png",
         "name": "Rose Petal",
         "description": "Soft pink for sweet melodies",
         "textColor": "#4a2c32",
@@ -93,6 +98,7 @@
     {
         "id": 6,
         "modelUrl": "/Models/jv_headphone.glb",
+        "personImage": "/images/person06.png",
         "name": "Seafoam Dream",
         "description": "Cool waves of serene sound",
         "textColor": "#2c4a48",

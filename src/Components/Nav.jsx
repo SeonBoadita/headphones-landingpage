@@ -11,7 +11,7 @@ const Nav = ({ val }) => {
     }, [])
     return (
         <>
-            <nav style={{ padding: "0 20px 0 5px", color: textColor }} className={`fixed top-0 left-0 z-100 w-full h-[12vh] flex items-center bg-${textColor}/10 backdrop-blur-lg`}>
+            <nav style={{ padding: "0 20px 0 5px", color: textColor }} className={`fixed top-0 left-0 z-100 w-full h-[12vh] flex items-center bg-${textColor}/10 backdrop-blur-[0.2vh]`}>
                 <div className="navContent flex items-center justify-between w-full h-full px-8">
                     <div className="leftSide flex items-end justify-start ">
                         <div className="quote uppercase text-[10px]" >Your Sound, Your Style</div>

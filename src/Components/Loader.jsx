@@ -5,7 +5,6 @@ const Loader = () => {
     const { active, progress } = useProgress()
     const [minTimeElapsed, setMinTimeElapsed] = useState(false)
     const [smoothProgress, setSmoothProgress] = useState(0)
-
     // Smooth progress animation
     useEffect(() => {
         const timer = setInterval(() => {

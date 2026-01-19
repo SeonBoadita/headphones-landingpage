@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useRef, useState } from 'react'
 import modelData from '../json/headphone.json'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { ContextProvider } from '../Context/ContextProvider'
 import gsap from 'gsap'
@@ -45,11 +45,15 @@ const Model = ({ modelRef, planeVisibility }) => {
     const { index } = useContext(ContextProvider)
     const planeRef = useRef()
     const [opacity, setOpacity] = useState(0)
-    const uniformMouse = useRef({
-        uMouse: {
-            value: new THREE.Vector2(-1, -1)
-        }
-    })
+    const texture = useTexture('/textures/texture.png')
+
+    const shaderUniforms = useMemo(() => ({
+        uMouse: { value: new THREE.Vector2(-1, -1) },
+        uTime: { value: 0 },
+        uTexture: { value: texture }
+    }), [texture])
+
+
     useGSAP(() => {
         if (modelRef.current) {
             gsap.to(modelRef.current.rotation, {
@@ -65,39 +69,44 @@ const Model = ({ modelRef, planeVisibility }) => {
         gsap.to({ value: opacity }, {
             value: planeVisibility ? 1 : 0,
             duration: 0.2,
-            ease: "easeInOut",
+            ease: "power2.out",
             onUpdate: function () {
                 setOpacity(this.targets()[0].value)
             }
         })
     }, [planeVisibility])
 
+    useFrame((state) => {
+        shaderUniforms.uTime.value = state.clock.getElapsedTime()
+    })
+
     return (
         <>
             <group
-                rotation={[0, Math.PI / 3, 0]}
-                position={[3, 0, -5]}
+                rotation={[0, Math.PI / 2.7, 0]}
+                position={[2.5, -0.25, -5]}
+                scale={[1.5, 1, 1]}
             >
                 <mesh
                     onPointerMove={(e) => {
-                        uniformMouse.current.uMouse.value.copy(e.uv)
+                        if (e.uv) {
+                            shaderUniforms.uMouse.value.copy(e.uv)
+                        }
                     }}
                     onPointerLeave={() => {
-                        uniformMouse.current.uMouse.value.copy(new THREE.Vector2(-1, -1))
+                        shaderUniforms.uMouse.value.set(-1, -1)
                     }}
                     ref={planeRef}
                     position={[0, 0, 0]}
-                    rotation={[-Math.PI / 4, 0, 0]}
+                    rotation={[-Math.PI / 4.5, 0, 0]}
                     visible={opacity > 0}
                 >
-                    <planeGeometry args={[20.5, 1]} />
+                    <planeGeometry args={[20.5, 1, 128, 128]} />
                     <shaderMaterial
                         vertexShader={vertexShaderCode}
                         fragmentShader={fragmentShaderCode}
-                        uniforms={uniformMouse.current}
-                        color={'#ffffff'}
+                        uniforms={shaderUniforms}
                         transparent={true}
-                        opacity={opacity}
                     />
                 </mesh>
             </group>
