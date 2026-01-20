@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react'
-import Home from './Components/Home'
 import gsap from 'gsap'
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all'
 import Nav from './Components/Nav'
 import headphonesJSONData from './json/headphone.json'
 import Loader from './Components/Loader'
 import { useGSAP } from '@gsap/react'
+import Home from './Components/Home'
 
 const App = () => {
   gsap.registerPlugin(ScrollTrigger, ScrollSmoother)

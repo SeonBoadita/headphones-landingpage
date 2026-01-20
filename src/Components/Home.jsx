@@ -1,9 +1,9 @@
+import { useRef, useState, useEffect } from 'react'
 import ThreeScene from './ThreeScene'
 import { useGSAP } from '@gsap/react'
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all'
 import { ContextProvider } from '../Context/ContextProvider'
 import gsap from 'gsap'
-import { useRef, useState, useEffect } from 'react'
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
@@ -13,11 +13,26 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
     const heading1 = useRef(null);
     const heading2 = useRef(null);
     const heading3 = useRef(null);
-    const threeScene = useRef(null)
-    const modelRef = useRef(null)
+    const threeScene = useRef(null);
+    const modelRef = useRef(null);
+    const personImageRef = useRef(null);
     const [value, setValue] = useState(false);
     const [modelReady, setModelReady] = useState(false);
     const [isVisiblePlane, setIsVisiblePlane] = useState(false);
+    const [isVisibleImage, setIsVisibleImage] = useState(false);
+    const [planeBounds, setPlaneBounds] = useState(null);
+
+    useEffect(() => {
+        const updateBounds = () => {
+            if (personImageRef.current) {
+                setPlaneBounds(personImageRef.current.getBoundingClientRect())
+            }
+        }
+        updateBounds()
+        window.addEventListener('resize', updateBounds)
+
+        return () => window.removeEventListener('resize', updateBounds)
+    }, [personImage])
 
     useGSAP(() => {
         ScrollSmoother.create({
@@ -82,6 +97,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                 pinSpacing: true,
                 onUpdate: (self) => {
                     setIsVisiblePlane(self.progress > 0.25)
+                    setIsVisibleImage(self.progress > 0.6)
                 }
             }
         })
@@ -121,6 +137,13 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             duration: 0.5
         }, "+=0.5")
 
+        tl.to('.bottom-section', {
+            opacity: 0,
+            y: 100,
+            display: "none",
+            duration: 0.5
+        }, "+=0.3")
+
         tl.from(".section2",
             {
                 display: "none",
@@ -138,9 +161,11 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                 <div id="smooth-wrapper">
                     <div id="smooth-content">
                         <div className="hero w-full h-screen relative font-[Poppins]" style={{ color: textColor, backgroundColor: backgroundColor }}>
+
                             <div className="section2 w-full h-screen absolute z-99">
-                                <img src={personImage} alt="" className="personImage object-cover w-full h-screen" />
+                                <img ref={personImageRef} src={null} alt="" className="personImage object-cover w-full h-screen" />
                             </div>
+
                             <div ref={heroRef} className="hero-container relative w-full h-screen">
                                 <div className="hero-text flex items-center justify-center flex-col whitespace-nowrap z-10 absolute w-fit h-fit top-[52vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
 
@@ -153,7 +178,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                 </div>
 
                                 <div ref={threeScene} className="three w-full h-screen">
-                                    <ThreeScene modelRef={modelRef} planeVisibility={isVisiblePlane} />
+                                    <ThreeScene modelRef={modelRef} planeVisibility={isVisiblePlane} planeBound={planeBounds} visibleImage={isVisibleImage} planeTexture={personImage} />
                                 </div>
 
                                 <div className="description absolute bottom-[5vh] right-[3vw] w-[25vw]">
@@ -169,7 +194,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                 </div>
                             </div>
 
-                            <div className="bottom-section absolute">
+                            <div className="bottom-section absolute" >
                                 <div className="left-detail w-[25vw] h-[20vh] absolute bottom-[5vw] left-[20vh] pointer-events-none">
                                     <div className="heading text-2xl font-bold">
                                         <span style={{ color: textColor }} className='heading2'>{detailHeading} </span>

@@ -9,6 +9,9 @@ import * as THREE from 'three'
 import vertexShaderCode from '../shaders/vertexShader.glsl?raw'
 import fragmentShaderCode from '../shaders/fragmentShader.glsl?raw'
 
+import imageVertexShaderCode from '../shaders/imageVertex.glsl?raw'
+import imageFragmentShaderCode from '../shaders/imageFragment.glsl?raw'
+
 const Headphone = ({ position, url, color }) => {
 
     const { scene } = useGLTF(url)
@@ -41,17 +44,29 @@ const Headphone = ({ position, url, color }) => {
 
     )
 }
-const Model = ({ modelRef, planeVisibility }) => {
+const Model = ({ modelRef, planeVisibility, planeBound, visibleImage, planeTexture }) => {
     const { index } = useContext(ContextProvider)
     const planeRef = useRef()
     const [opacity, setOpacity] = useState(0)
     const texture = useTexture('/textures/texture.png')
+    const imageTexture = useTexture(planeTexture)
+    // const { viewport } = useThree()
 
+    console.log("planeBound", planeBound)
+    console.log("imageTexture", imageTexture)
+    console.log("planeTexture path", planeTexture)
     const shaderUniforms = useMemo(() => ({
         uMouse: { value: new THREE.Vector2(-1, -1) },
         uTime: { value: 0 },
         uTexture: { value: texture }
     }), [texture])
+
+    const shaderImageUniforms = useMemo(() => ({
+        uTime: { value: 0 },
+        uImgMouse: { value: new THREE.Vector2(-1, -1) },
+        uTexture: { value: imageTexture },
+        uProgress: { value: 0 }
+    }), [imageTexture])
 
 
     useGSAP(() => {
@@ -76,13 +91,24 @@ const Model = ({ modelRef, planeVisibility }) => {
         })
     }, [planeVisibility])
 
+    // Smooth fade-in for image plane
+    useGSAP(() => {
+        gsap.to(shaderImageUniforms.uProgress, {
+            value: visibleImage ? 1 : 0,
+            duration: 1.5,
+            ease: "power2.out"
+        })
+    }, [visibleImage])
+
     useFrame((state) => {
         shaderUniforms.uTime.value = state.clock.getElapsedTime()
+        shaderImageUniforms.uTime.value = state.clock.getElapsedTime()
     })
 
     return (
         <>
             <group
+                visible={!visibleImage}
                 rotation={[0, Math.PI / 2.7, 0]}
                 position={[2.5, -0.25, -5]}
                 scale={[1.5, 1, 1]}
@@ -112,6 +138,7 @@ const Model = ({ modelRef, planeVisibility }) => {
             </group>
 
             <group
+                visible={!visibleImage}
                 ref={modelRef}
                 position={[-1, -6.4, 0]}
                 rotation={[0, 0.7, 0]}
@@ -132,6 +159,31 @@ const Model = ({ modelRef, planeVisibility }) => {
                         )
                     })
                 }
+            </group>
+
+            <group
+                position={[0, 0, 1]}
+                visible={visibleImage}
+            >
+                <mesh
+                    onPointerMove={(e) => {
+                        if (e.uv) {
+                            shaderImageUniforms.uImgMouse.value.copy(e.uv)
+                        }
+                    }}
+                    onPointerLeave={() => {
+                        shaderImageUniforms.uImgMouse.value.set(-1, -1)
+                    }}
+                >
+                    <planeGeometry args={[8, 4.5, 100, 100]} />
+                    <shaderMaterial
+                        vertexShader={imageVertexShaderCode}
+                        fragmentShader={imageFragmentShaderCode}
+                        uniforms={shaderImageUniforms}
+                        side={THREE.DoubleSide}
+                        transparent={true}
+                    />
+                </mesh>
             </group>
         </>
     )
