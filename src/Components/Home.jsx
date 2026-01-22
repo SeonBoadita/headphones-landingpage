@@ -143,16 +143,17 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             display: "none",
             duration: 0.5
         }, "+=0.3")
+        tl.from(".detail", {
+            opacity: 0,
+            duration: 0.5,
+            y: 100,
+        }, "+=1")
 
         tl.from(".section2",
             {
                 display: "none",
                 opacity: 0,
             }, "+=1")
-
-        tl.from(".personImage", {
-            scale: 2,
-        }, "<")
     }, { dependencies: [modelReady] })
 
     return (
@@ -162,7 +163,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                     <div id="smooth-content">
                         <div className="hero w-full h-screen relative font-[Poppins]" style={{ color: textColor, backgroundColor: backgroundColor }}>
 
-                            <div className="section2 w-full h-screen absolute z-99">
+                            <div className="section2 w-full h-screen absolute z-99 pointer-events-none">
                                 <img ref={personImageRef} src={null} alt="" className="personImage object-cover w-full h-screen" />
                             </div>
 
@@ -206,6 +207,57 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                         ))}
                                     </p>
                                 </div>
+                            </div>
+
+                            <div className="detail absolute w-[40vw] h-[20vh] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-[8vw] text-[1.4vw] pointer-events-none">
+                                <button
+                                    style={{
+                                        padding: "8px 16px",
+                                        backgroundColor: textColor,
+                                        color: buttonTextColor,
+                                        borderColor: textColor,
+                                        transition: "all 0.3s ease"
+                                    }}
+                                    className="shop-now cursor-pointer border-[.5px] rounded-[1px] hover:bg-transparent hover:scale-105 hover:shadow-lg pointer-events-auto"
+                                    onMouseEnter={(e) => {
+                                        e.target.style.color = textColor;
+                                        e.target.style.backgroundColor = 'transparent';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.color = buttonTextColor;
+                                        e.target.style.backgroundColor = textColor;
+                                    }}
+                                >
+                                    Shop now
+                                    <i
+                                        style={{ marginLeft: "5px", transition: "transform 0.3s ease" }}
+                                        className="fa-solid fa-bag-shopping hover:rotate-"
+                                    ></i>
+                                </button>
+
+                                <button
+                                    style={{
+                                        padding: "8px 16px",
+                                        color: textColor,
+                                        borderColor: textColor,
+                                        transition: "all 0.3s ease"
+                                    }}
+                                    className="learn-more cursor-pointer border-[.5px] rounded-[1px] hover:scale-105 hover:shadow-lg pointer-events-auto"
+                                    onMouseEnter={(e) => {
+                                        e.target.style.backgroundColor = textColor;
+                                        e.target.style.color = buttonTextColor;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.backgroundColor = 'transparent';
+                                        e.target.style.color = textColor;
+                                    }}
+                                >
+                                    Learn more
+                                    <i
+                                        style={{ marginLeft: "5px", transition: "transform 0.3s ease" }}
+                                        className="fa-solid fa-circle-info hover:rotate-12"
+                                    ></i>
+                                </button>
                             </div>
 
                         </div>

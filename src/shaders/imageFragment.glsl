@@ -6,7 +6,7 @@ uniform float uProgress;
 
 void main(){
     float blocks=20.;
-    vec2 blockUvs=floor(vUv*blocks)/blocks;
+    vec2 blockUvs=(floor(vUv*blocks)/blocks)+(.5/blocks);
     vec2 mouse=uImgMouse;
     float dist=length(blockUvs-mouse);
     float effect=smoothstep(.2,0.,dist);
