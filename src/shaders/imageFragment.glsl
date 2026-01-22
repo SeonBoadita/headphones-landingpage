@@ -10,8 +10,8 @@ void main(){
     vec2 mouse=uImgMouse;
     float dist=length(blockUvs-mouse);
     float effect=smoothstep(.2,0.,dist);
-    vec2 distortion=(vUv-mouse)*effect*0.3*cos(uTime);
-    vec3 color=texture2D(uTexture,vUv+(distortion)).rgb;
-    float alpha = smoothstep(0.0, 1.0, uProgress);
-    gl_FragColor=vec4(color, alpha);
+    vec2 distortion=(vUv-mouse)*effect*.3*cos(uTime);
+    vec3 color=texture2D(uTexture,vUv*1.5+(distortion*2.)).rgb;
+    float alpha=smoothstep(0.,1.,uProgress);
+    gl_FragColor=vec4(color,alpha);
 }

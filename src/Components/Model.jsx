@@ -1,11 +1,12 @@
-import React, { useContext, useMemo, useRef, useState } from 'react'
+import React, { useContext, useMemo, useRef, useState, useEffect } from 'react'
 import modelData from '../json/headphone.json'
-import { useGLTF, useTexture } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { useGLTF } from '@react-three/drei'
+import { useFrame, useLoader } from '@react-three/fiber'
 import { ContextProvider } from '../Context/ContextProvider'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import * as THREE from 'three'
+import { TextureLoader } from 'three'
 import vertexShaderCode from '../shaders/vertexShader.glsl?raw'
 import fragmentShaderCode from '../shaders/fragmentShader.glsl?raw'
 
@@ -44,29 +45,34 @@ const Headphone = ({ position, url, color }) => {
 
     )
 }
-const Model = ({ modelRef, planeVisibility, planeBound, visibleImage, planeTexture }) => {
+const Model = ({ modelRef, planeVisibility, visibleImage, planeTexture }) => {
     const { index } = useContext(ContextProvider)
     const planeRef = useRef()
     const [opacity, setOpacity] = useState(0)
-    const texture = useTexture('/textures/texture.png')
-    const imageTexture = useTexture(planeTexture)
-    // const { viewport } = useThree()
 
-    console.log("planeBound", planeBound)
-    console.log("imageTexture", imageTexture)
-    console.log("planeTexture path", planeTexture)
+    // Preload all textures at once to prevent page reload on navigation
+    const allPersonImages = useMemo(() => modelData.map(item => item.personImage), [])
+    const texture = useLoader(TextureLoader, '/textures/texture.png')
+    const allImageTextures = useLoader(TextureLoader, allPersonImages)
+
+    const imageTexture = allImageTextures[allPersonImages.indexOf(planeTexture)] || allImageTextures[0]
+    
     const shaderUniforms = useMemo(() => ({
         uMouse: { value: new THREE.Vector2(-1, -1) },
         uTime: { value: 0 },
         uTexture: { value: texture }
     }), [texture])
 
-    const shaderImageUniforms = useMemo(() => ({
+    const shaderImageUniforms = useRef({
         uTime: { value: 0 },
         uImgMouse: { value: new THREE.Vector2(-1, -1) },
         uTexture: { value: imageTexture },
         uProgress: { value: 0 }
-    }), [imageTexture])
+    })
+
+    useEffect(() => {
+        shaderImageUniforms.current.uTexture.value = imageTexture
+    }, [imageTexture])
 
 
     useGSAP(() => {
@@ -91,9 +97,8 @@ const Model = ({ modelRef, planeVisibility, planeBound, visibleImage, planeTextu
         })
     }, [planeVisibility])
 
-    // Smooth fade-in for image plane
     useGSAP(() => {
-        gsap.to(shaderImageUniforms.uProgress, {
+        gsap.to(shaderImageUniforms.current.uProgress, {
             value: visibleImage ? 1 : 0,
             duration: 1.5,
             ease: "power2.out"
@@ -102,7 +107,7 @@ const Model = ({ modelRef, planeVisibility, planeBound, visibleImage, planeTextu
 
     useFrame((state) => {
         shaderUniforms.uTime.value = state.clock.getElapsedTime()
-        shaderImageUniforms.uTime.value = state.clock.getElapsedTime()
+        shaderImageUniforms.current.uTime.value = state.clock.getElapsedTime()
     })
 
     return (
@@ -168,18 +173,18 @@ const Model = ({ modelRef, planeVisibility, planeBound, visibleImage, planeTextu
                 <mesh
                     onPointerMove={(e) => {
                         if (e.uv) {
-                            shaderImageUniforms.uImgMouse.value.copy(e.uv)
+                            shaderImageUniforms.current.uImgMouse.value.copy(e.uv)
                         }
                     }}
                     onPointerLeave={() => {
-                        shaderImageUniforms.uImgMouse.value.set(-1, -1)
+                        shaderImageUniforms.current.uImgMouse.value.set(-1, -1)
                     }}
                 >
                     <planeGeometry args={[8, 4.5, 100, 100]} />
                     <shaderMaterial
                         vertexShader={imageVertexShaderCode}
                         fragmentShader={imageFragmentShaderCode}
-                        uniforms={shaderImageUniforms}
+                        uniforms={shaderImageUniforms.current}
                         side={THREE.DoubleSide}
                         transparent={true}
                     />
