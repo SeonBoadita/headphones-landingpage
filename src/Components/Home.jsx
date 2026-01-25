@@ -20,6 +20,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
     const [modelReady, setModelReady] = useState(false);
     const [isVisiblePlane, setIsVisiblePlane] = useState(false);
     const [isVisibleImage, setIsVisibleImage] = useState(false);
+    const [isVisibleSec3, setIsVisibleSec3] = useState(true);
     const [planeBounds, setPlaneBounds] = useState(null);
 
     useEffect(() => {
@@ -90,14 +91,15 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
-                end: "+=300%",
+                end: "+=400%",
                 // markers: true,
                 scrub: true,
                 pin: true,
                 pinSpacing: true,
                 onUpdate: (self) => {
-                    setIsVisiblePlane(self.progress > 0.25)
-                    setIsVisibleImage(self.progress > 0.6)
+                    setIsVisiblePlane(self.progress > 0.2)
+                    setIsVisibleImage(self.progress > 0.4 && self.progress < 0.9)
+                    setIsVisibleSec3(self.progress < 0.9)
                 }
             }
         })
@@ -149,11 +151,16 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
             y: 100,
         }, "+=1")
 
-        tl.from(".section2",
-            {
-                display: "none",
-                opacity: 0,
-            }, "+=1")
+        tl.from(".section2", {
+            display: "none",
+            opacity: 0,
+        }, "+=1")
+        tl.to(".detail", {
+            opacity: 0,
+            y: -100,
+            display: "none",
+            duration: 0.5
+        }, "<-=0.5")
     }, { dependencies: [modelReady] })
 
     return (
@@ -179,7 +186,7 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                 </div>
 
                                 <div ref={threeScene} className="three w-full h-screen">
-                                    <ThreeScene modelRef={modelRef} planeVisibility={isVisiblePlane} planeBound={planeBounds} visibleImage={isVisibleImage} planeTexture={personImage} />
+                                    <ThreeScene modelRef={modelRef} planeVisibility={isVisiblePlane} planeBound={planeBounds} visibleImage={isVisibleImage} visibleSec3={isVisibleSec3} planeTexture={personImage} />
                                 </div>
 
                                 <div className="description absolute bottom-[5vh] right-[3vw] w-[25vw]">
@@ -259,6 +266,10 @@ const Home = ({ val, index, intensity, left, right, heroRef }) => {
                                     ></i>
                                 </button>
                             </div>
+
+                            {/* <div className="section-details3 absolute w-full h-screen top-0 left-0 z-50 pointer-events-none">
+
+                            </div> */}
 
                         </div>
                     </div>

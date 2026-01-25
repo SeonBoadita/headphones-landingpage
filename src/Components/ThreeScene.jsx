@@ -11,7 +11,7 @@ const DirectionalLight = () => {
         <directionalLight intensity={intensity || 0.8} color="white" position={[0, 2, 1]} />
     )
 }
-const ThreeScene = ({ modelRef, planeVisibility, planeBound, visibleImage, planeTexture }) => {
+const ThreeScene = ({ modelRef, planeVisibility, planeBound, visibleImage, visibleSec3, planeTexture }) => {
     return (
         <div className={`canvas w-full h-screen fixed`}>
             <Canvas camera={{ position: [0, 0, 8], fov: 25 }}>
@@ -20,7 +20,7 @@ const ThreeScene = ({ modelRef, planeVisibility, planeBound, visibleImage, plane
                 {/* <OrbitControls /> */}
                 <Suspense fallback={null}>
                     <Environment preset="city" />
-                    <Model modelRef={modelRef} planeVisibility={planeVisibility} planeBound={planeBound} visibleImage={visibleImage} planeTexture={planeTexture} />
+                    <Model modelRef={modelRef} planeVisibility={planeVisibility} planeBound={planeBound} visibleImage={visibleImage} visibleSec3={visibleSec3} planeTexture={planeTexture} />
                 </Suspense>
                 <DirectionalLight />
             </Canvas>

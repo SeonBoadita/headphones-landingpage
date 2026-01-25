@@ -45,7 +45,7 @@ const Headphone = ({ position, url, color }) => {
 
     )
 }
-const Model = ({ modelRef, planeVisibility, visibleImage, planeTexture }) => {
+const Model = ({ modelRef, planeVisibility, visibleImage, visibleSec3, planeTexture }) => {
     const { index } = useContext(ContextProvider)
     const planeRef = useRef()
     const [opacity, setOpacity] = useState(0)
@@ -56,7 +56,7 @@ const Model = ({ modelRef, planeVisibility, visibleImage, planeTexture }) => {
     const allImageTextures = useLoader(TextureLoader, allPersonImages)
 
     const imageTexture = allImageTextures[allPersonImages.indexOf(planeTexture)] || allImageTextures[0]
-    
+
     const shaderUniforms = useMemo(() => ({
         uMouse: { value: new THREE.Vector2(-1, -1) },
         uTime: { value: 0 },
@@ -113,7 +113,7 @@ const Model = ({ modelRef, planeVisibility, visibleImage, planeTexture }) => {
     return (
         <>
             <group
-                visible={!visibleImage}
+                visible={!visibleImage && visibleSec3}
                 rotation={[0, Math.PI / 2.7, 0]}
                 position={[2.5, -0.25, -5]}
                 scale={[1.5, 1, 1]}
